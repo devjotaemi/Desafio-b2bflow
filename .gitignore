@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Ambientes e segredos
+.venv/
+.env
+.env.*
+!.env.example
+
+# Caches de testes e ferramentas
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# SO / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Itens locais (não versionar)
+.claude/worktrees/
+.claude/settings.json.txt
+b2bflow-desafio-prompt.md
