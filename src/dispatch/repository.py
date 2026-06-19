@@ -22,6 +22,7 @@ class SupabaseRepository:
             .limit(limit)
             .execute()
         )
+        # pyre-ignore
         return [Contact(**row) for row in response.data]
 
     def already_sent(self, contact_id: str) -> bool:

@@ -24,9 +24,3 @@ htmlcov/
 Thumbs.db
 .idea/
 .vscode/
-
-# Itens locais (não versionar)
-.claude/worktrees/
-.claude/settings.json.txt
-b2bflow-desafio-prompt.md
-CLAUDE.md
