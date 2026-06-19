@@ -1,4 +1,4 @@
-"""CLI (typer) do motor de disparo: ``dispatch``, ``webhook`` e ``validate``."""
+# CLI (typer) do motor de disparo: "dispatch", "webhook" e "validate".
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ app = typer.Typer(add_completion=False, help="Motor de disparo de mensagens da b
 
 
 def _load_settings() -> Settings:
-    """Carrega as configurações ou aborta com mensagem clara (fail-fast)."""
+    # Carrega as configurações ou aborta com mensagem clara (fail-fast).
     try:
         return get_settings()
     except ValidationError as exc:
@@ -25,7 +25,7 @@ def _load_settings() -> Settings:
 def dispatch(
     dry_run: bool = typer.Option(False, "--dry-run", help="Simula o disparo sem chamar a Z-API."),
 ) -> None:
-    """Dispara as mensagens para os contatos elegíveis do Supabase."""
+    # Dispara as mensagens para os contatos elegíveis do Supabase.
     settings = _load_settings()
     configure_logging(settings.log_level)
     effective_dry_run = dry_run or settings.dry_run
@@ -55,7 +55,7 @@ def dispatch(
 
 @app.command()
 def webhook() -> None:
-    """Sobe o receiver FastAPI que recebe os callbacks de status da Z-API."""
+    # Sobe o receiver FastAPI que recebe os callbacks de status da Z-API.
     settings = _load_settings()
     configure_logging(settings.log_level)
 
@@ -68,7 +68,7 @@ def webhook() -> None:
 
 @app.command()
 def validate() -> None:
-    """Testa as conexões com Supabase e Z-API sem enviar nenhuma mensagem."""
+    # Testa as conexões com Supabase e Z-API sem enviar nenhuma mensagem.
     settings = _load_settings()
     configure_logging(settings.log_level)
     get_logger()

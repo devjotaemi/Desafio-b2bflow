@@ -33,12 +33,11 @@ class DispatchRecord(BaseModel):
 
 
 class ZApiResponse(BaseModel):
-    """Resposta do envio de texto da Z-API.
+    # Resposta do envio de texto da Z-API.
 
-    A Z-API pode retornar o identificador da mensagem em campos diferentes
-    (``messageId``, ``zaapId``, ``id``); ``from_api`` extrai o primeiro
-    disponível e guarda o payload bruto para auditoria/log.
-    """
+    # A Z-API pode retornar o identificador da mensagem em campos diferentes
+    # ("messageId", "zaapId", "id"); "from_api" extrai o primeiro
+    # disponível e guarda o payload bruto para auditoria/log.
 
     message_id: str
     raw: dict[str, object] = Field(default_factory=dict)

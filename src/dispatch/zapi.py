@@ -1,10 +1,9 @@
-"""Cliente HTTP da Z-API com retry/backoff exponencial.
+# Cliente HTTP da Z-API com retry/backoff exponencial.
+# Envie texto pelo endpoint "send-text" incluindo o header obrigatório
+# "Client-Token". Erros temporários (timeout, conexão perdida, 5xx) são
+# Tentativas com backoff exponencial utilizando "tenacity"; erros 4xx são gerenciados
+# como se fossem permanentes (não vale a pena tentar novamente).
 
-Envie texto pelo endpoint ``send-text`` incluindo o header obrigatório
-``Client-Token``. Erros temporários (timeout, conexão perdida, 5xx) são
-Tentativas com backoff exponencial utilizando ``tenacity``; erros 4xx são gerenciados
-como se fossem permanentes (não vale a pena tentar novamente).
-"""
 
 from __future__ import annotations
 
@@ -24,22 +23,25 @@ log = structlog.get_logger()
 
 
 class ZApiError(Exception):
-    """Erro genérico ao falar com a Z-API."""
+    # Erro genérico ao falar com a Z-API.
+    pass
 
 
 class TransientZApiError(ZApiError):
-    """Falha transitória (5xx) elegível a retry."""
+    # Falha transitória (5xx) elegível a retry.
+    pass
 
 
 class PermanentZApiError(ZApiError):
-    """Falha permanente (4xx) não adianta re-tentar."""
+    # Falha permanente (4xx) não adianta re-tentar.
+    pass
 
 
 _RETRYABLE = (httpx.TimeoutException, httpx.TransportError, TransientZApiError)
 
 
 class ZApiClient:
-    """Cliente de alto nível para a Z-API."""
+    # Cliente de alto nível para a Z-API.
 
     def __init__(
         self,
@@ -76,10 +78,10 @@ class ZApiClient:
         return {"Client-Token": self._client_token, "Content-Type": "application/json"}
 
     def send_text(self, phone: str, message: str) -> str:
-        """Envia uma mensagem de texto e retorna o id da mensagem na Z-API.
+        #        Envia uma mensagem de texto e retorna o id da mensagem na Z-API.
 
-        Re-tenta automaticamente em falhas transitórias (até ``max_attempts``).
-        """
+        #        Re-tenta automaticamente em falhas transitórias (até "max_attempts").
+
         normalized = phone.removeprefix("+")
         retrying = Retrying(
             stop=stop_after_attempt(self._max_attempts),
@@ -91,7 +93,7 @@ class ZApiClient:
         return retrying(self._do_send_text, normalized, message)
 
     def check_connection(self) -> bool:
-        """Consulta o status da instância (não envia mensagem). Usado pelo ``validate``."""
+        """Consulta o status da instância (não envia mensagem). Usado pelo "validate"."""
         response = self._client.get(self.status_url, headers=self._headers)
         return response.status_code < 400
 

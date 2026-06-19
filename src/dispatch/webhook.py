@@ -1,10 +1,9 @@
-"""Receiver FastAPI dos callbacks de status da Z-API (enviada/entregue/lida).
+# Receiver FastAPI dos callbacks de status da Z-API (enviada/entregue/lida).
+# A Z-API envia callbacks para uma URL pública configurada no painel. Aqui
+# correlacionamos o callback ao "dispatch_log" pelo "zapi_message_id" e
+# atualizamos status + timestamps. Os nomes de campos seguem o contrato conhecido
+# da Z-API; confirme na doc oficial antes de produção.
 
-A Z-API envia callbacks para uma URL pública configurada no painel. Aqui
-correlacionamos o callback ao ``dispatch_log`` pelo ``zapi_message_id`` e
-atualizamos status + timestamps. Os nomes de campos seguem o contrato conhecido
-da Z-API; confirme na doc oficial antes de produção.
-"""
 
 from __future__ import annotations
 

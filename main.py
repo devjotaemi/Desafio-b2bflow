@@ -1,10 +1,9 @@
-"""Entrypoint fino do motor de disparo.
+# Entrypoint fino do motor de disparo.
 
-Garante que ``python main.py`` execute o fluxo de disparo de ponta a ponta:
+# Garante que ``python main.py`` execute o fluxo de disparo de ponta a ponta:
 
-    python main.py             # dispara
-    python main.py --dry-run   # simula, sem chamar a Z-API
-"""
+#    python main.py              dispara
+#    python main.py --dry-run    simula, sem chamar a Z-API
 
 from __future__ import annotations
 

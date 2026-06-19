@@ -1,9 +1,8 @@
-"""Orquestração do disparo: opt-out, idempotência, rate limit, envio e log.
+# Orquestração do disparo: opt-out, idempotência, rate limit, envio e log.
+# A mensagem chega como uma função ("message_provider"), e não hardcoded no
+# meio do loop. Hoje devolve a string exata exigida pelo desafio; amanhã o mesmo
+# motor pode receber um texto gerado por IA sem tocar nesta lógica.
 
-A mensagem chega como uma função (``message_provider``), e não hardcoded no
-meio do loop. Hoje devolve a string exata exigida pelo desafio; amanhã o mesmo
-motor pode receber um texto gerado por IA sem tocar nesta lógica.
-"""
 
 from __future__ import annotations
 
