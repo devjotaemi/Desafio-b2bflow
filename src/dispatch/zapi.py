@@ -1,9 +1,9 @@
 """Cliente HTTP da Z-API com retry/backoff exponencial.
 
-Envia texto pelo endpoint ``send-text`` incluindo o header obrigatório
-``Client-Token``. Erros transitórios (timeout, falha de conexão, 5xx) são
-re-tentados com backoff exponencial via ``tenacity``; erros 4xx são tratados
-como permanentes (não adianta re-tentar).
+Envie texto pelo endpoint ``send-text`` incluindo o header obrigatório
+``Client-Token``. Erros temporários (timeout, conexão perdida, 5xx) são
+Tentativas com backoff exponencial utilizando ``tenacity``; erros 4xx são gerenciados
+como se fossem permanentes (não vale a pena tentar novamente).
 """
 
 from __future__ import annotations
@@ -28,18 +28,18 @@ class ZApiError(Exception):
 
 
 class TransientZApiError(ZApiError):
-    """Falha transitória (5xx) — elegível a retry."""
+    """Falha transitória (5xx) elegível a retry."""
 
 
 class PermanentZApiError(ZApiError):
-    """Falha permanente (4xx) — não adianta re-tentar."""
+    """Falha permanente (4xx) não adianta re-tentar."""
 
 
 _RETRYABLE = (httpx.TimeoutException, httpx.TransportError, TransientZApiError)
 
 
 class ZApiClient:
-    """Cliente fino para a Z-API."""
+    """Cliente de alto nível para a Z-API."""
 
     def __init__(
         self,

@@ -40,7 +40,6 @@ def _extract_message_id(payload: dict[str, Any]) -> str | None:
 
 
 def create_app(repository: SupabaseRepository | None = None) -> FastAPI:
-    """Cria o app FastAPI. ``repository`` pode ser injetado (testes)."""
     app = FastAPI(title="b2bflow dispatch webhook", version="0.1.0")
     state: dict[str, SupabaseRepository | None] = {"repository": repository}
 

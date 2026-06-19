@@ -1,5 +1,3 @@
-"""Modelos de domínio (pydantic) usados pelo motor de disparo."""
-
 from __future__ import annotations
 
 from datetime import datetime
@@ -8,8 +6,6 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class Contact(BaseModel):
-    """Contato lido da tabela ``contatos``."""
-
     model_config = ConfigDict(extra="ignore")
 
     id: str
@@ -20,8 +16,6 @@ class Contact(BaseModel):
 
 
 class DispatchRecord(BaseModel):
-    """Registro de disparo — espelha a tabela ``dispatch_log``."""
-
     model_config = ConfigDict(extra="ignore")
 
     id: str | None = None

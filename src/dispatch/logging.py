@@ -1,10 +1,3 @@
-"""Configuração de logging estruturado (JSON) via ``structlog``.
-
-Logs em JSON com contexto por contato (ex.: ``contact_id``, ``telefone``)
-tornam o disparo rastreável e adequado a ingestão por ferramentas de
-observabilidade — bem mais útil que ``print()``.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -15,7 +8,6 @@ from structlog.typing import FilteringBoundLogger
 
 
 def configure_logging(level: str = "INFO") -> None:
-    """Configura o structlog para emitir JSON no nível informado."""
     log_level = getattr(logging, level.upper(), logging.INFO)
 
     logging.basicConfig(format="%(message)s", stream=sys.stdout, level=log_level)
@@ -36,5 +28,4 @@ def configure_logging(level: str = "INFO") -> None:
 
 
 def get_logger(**context: object) -> FilteringBoundLogger:
-    """Retorna um logger com contexto vinculado (ex.: ``contact_id``, ``telefone``)."""
     return structlog.get_logger().bind(**context)

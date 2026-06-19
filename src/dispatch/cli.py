@@ -84,7 +84,7 @@ def validate() -> None:
         typer.secho(
             f"Supabase OK — {len(contacts)} contato(s) elegível(is).", fg=typer.colors.GREEN
         )
-    except Exception as exc:  # noqa: BLE001 — validação reporta qualquer falha
+    except Exception as exc:
         ok = False
         typer.secho(f"Supabase FALHOU: {exc}", fg=typer.colors.RED, err=True)
 
@@ -100,7 +100,7 @@ def validate() -> None:
         else:
             ok = False
             typer.secho("Z-API respondeu com erro ao consultar o status.", fg=typer.colors.YELLOW)
-    except Exception as exc:  # noqa: BLE001 — validação reporta qualquer falha
+    except Exception as exc:
         ok = False
         typer.secho(f"Z-API FALHOU: {exc}", fg=typer.colors.RED, err=True)
     finally:

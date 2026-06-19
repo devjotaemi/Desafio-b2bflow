@@ -1,5 +1,3 @@
-"""Testes de normalização de telefone para E.164 (sem ``+``)."""
-
 import pytest
 
 from dispatch.phone import InvalidPhoneNumberError, normalize_phone
@@ -20,7 +18,6 @@ def test_normalize_valid_numbers(raw: str, expected: str) -> None:
 
 
 def test_keeps_brazilian_ninth_digit() -> None:
-    # Celular com nono dígito => DDI(2) + DDD(2) + 9 dígitos = 13 caracteres.
     normalized = normalize_phone("(17) 99999-9999")
     assert normalized == "5517999999999"
     assert len(normalized) == 13

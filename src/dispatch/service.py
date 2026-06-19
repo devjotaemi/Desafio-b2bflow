@@ -50,13 +50,13 @@ def run_dispatch(
     for index, contact in enumerate(contacts):
         clog = log.bind(contact_id=contact.id, nome=contact.nome_contato)
 
-        # LGPD: nunca enviar para quem pediu opt-out (defesa extra ao filtro do banco).
+        # não enviar para quem pediu opt-out (defesa extra ao filtro do banco).
         if contact.opt_out:
             clog.info("skip_opt_out")
             results.append({"contact_id": contact.id, "status": "skipped_opt_out"})
             continue
 
-        # Idempotência: não reenviar para quem já recebeu com sucesso.
+        # não reenviar para quem já recebeu com sucesso.
         if repository.already_sent(contact.id):
             clog.info("skip_already_sent")
             results.append({"contact_id": contact.id, "status": "skipped_already_sent"})
@@ -80,7 +80,7 @@ def run_dispatch(
         record_id = repository.create_dispatch_record(contact.id, phone, message)
         try:
             message_id = zapi.send_text(phone, message)
-        except Exception as exc:  # noqa: BLE001 — falha de um contato não derruba o batch
+        except Exception as exc:
             repository.mark_failed(record_id, str(exc))
             clog.error("send_failed", error=str(exc))
             results.append({"contact_id": contact.id, "status": "failed", "error": str(exc)})
@@ -91,7 +91,7 @@ def run_dispatch(
                 {"contact_id": contact.id, "status": "sent", "zapi_message_id": message_id}
             )
 
-        # Rate limit anti-ban: aguarda entre envios reais (nunca após o último contato).
+        # anti-ban: aguarda entre envios reais.
         if index < total - 1:
             sleep(settings.dispatch_rate_limit_seconds)
 
