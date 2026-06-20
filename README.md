@@ -9,7 +9,9 @@ Lê contatos no **Supabase** e dispara, via **Z-API**, uma mensagem de WhatsApp 
 
 ## Demonstração
 
+[![Demonstração do fluxo no YouTube](https://img.youtube.com/vi/ZAGNoWdRkgs/maxresdefault.jpg)](https://youtu.be/ZAGNoWdRkgs)
 
+Fluxo completo de ponta a ponta: leitura dos contatos no **Supabase** -> envio via **Z-API** -> recebimento no **WhatsApp**. [Assistir no YouTube](https://youtu.be/ZAGNoWdRkgs)
 
 ## Setup
 
