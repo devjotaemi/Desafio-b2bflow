@@ -1,14 +1,22 @@
-# b2bflow — Motor de Disparo de WhatsApp
+# b2bflow - Motor de Disparo de WhatsApp
 
 [![CI](https://github.com/devjotaemi/Desafio-b2bflow/actions/workflows/ci.yml/badge.svg)](https://github.com/devjotaemi/Desafio-b2bflow/actions/workflows/ci.yml)
 
-Lê contatos no **Supabase** e dispara, via **Z-API**, uma mensagem de WhatsApp para até 3 números. Mais do que um script: é a **semente de um motor de disparo** — com log auditável, idempotência, opt-out (LGPD), rate limit anti-ban e tracking de entrega/leitura.
+Lê contatos no **Supabase** e dispara, via **Z-API**, uma mensagem de WhatsApp para até 3 números. Mais do que um script: é a **semente de um motor de disparo** com log auditável, idempotência, opt-out (LGPD), rate limit anti-ban e tracking de entrega/leitura.
 
 **Stack:** Python 3.12+ · uv · httpx · tenacity · pydantic-settings · phonenumbers · structlog · supabase · typer · fastapi/uvicorn · pytest+respx · ruff · GitHub Actions.
 
+
+## Demonstração
+
+[![Demonstração do fluxo no YouTube](https://img.youtube.com/vi/ZAGNoWdRkgs/maxresdefault.jpg)](https://youtu.be/ZAGNoWdRkgs)
+
+Fluxo completo de ponta a ponta: leitura dos contatos no **Supabase** -> envio via **Z-API** -> recebimento no **WhatsApp**. [Assistir no YouTube](https://youtu.be/ZAGNoWdRkgs)
+
+
 ## Setup
 
-**1. Banco** — no Supabase (SQL Editor), rode o [`sql/schema.sql`](sql/schema.sql) e popule contatos de teste com **seus números** (DDI+DDD):
+**1. Banco** no Supabase (SQL Editor), rode o [`sql/schema.sql`](sql/schema.sql) e popule contatos de teste com **seus números** (DDI+DDD):
 
 ```sql
 insert into contatos (nome_contato, telefone) values
@@ -46,7 +54,7 @@ create index if not exists idx_dispatch_log_contact on dispatch_log (contact_id)
 ```
 </details>
 
-**2. Ambiente** — `cp .env.example .env` e preencha:
+**2. Ambiente** `cp .env.example .env` e preencha:
 
 | Variável | Descrição |
 |---|---|
@@ -56,7 +64,7 @@ create index if not exists idx_dispatch_log_contact on dispatch_log (contact_id)
 
 Opcionais (têm padrão): `ZAPI_BASE_URL`, `DISPATCH_RATE_LIMIT_SECONDS=3`, `DISPATCH_MAX_CONTACTS=3`, `DRY_RUN=false`, `WEBHOOK_HOST`/`WEBHOOK_PORT`, `LOG_LEVEL=INFO`. A config é validada na inicialização (fail-fast).
 
-**3. Dependências** — `uv sync`
+**3. Dependências** `uv sync`
 
 ## Uso
 
@@ -78,4 +86,4 @@ Suba `uv run dispatch webhook`, exponha a porta 8000 (`ngrok http 8000` ou VPS) 
 - **LGPD:** contatos com `opt_out = true` nunca são contatados (filtro no banco + reforço no serviço).
 - **Anti-ban:** intervalo entre envios + retry com backoff só em falhas transitórias (timeout/5xx); 4xx é permanente.
 - **Tracking:** webhook fecha o ciclo com status de entrega/leitura.
-- **Gancho de IA:** a mensagem é injetada via `message_provider` (hoje a string do desafio; amanhã um texto gerado por IA) — sem tocar na orquestração.
+- **Gancho de IA:** a mensagem é injetada via `message_provider` (hoje a string do desafio; amanhã um texto gerado por IA) sem tocar na orquestração.
